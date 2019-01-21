@@ -1,15 +1,15 @@
 let fortunes = [
-    "The fortune you seek is in another cookie.",
-    "A cynic is only a frustrated optimist.",
-    "You will live long enough to open many fortune cookies.",
-    "He who laughs at himself never runs out of things to laugh at.",
-    "Never forget a friend. Especially if he owes you.",
-    "It is a good day to have a good day.",
-    "Hard work pays off in the future. Laziness pays off now.",
-    "If a turtle doesn't have a shell, is it naked or homeless?",
-    "Change is inevitable, except for vending machines."
+   { id:1, text:"The fortune you seek is in another cookie."},
+    {id:2, text:"A cynic is only a frustrated optimist."},
+    {id:3, text:"You will live long enough to open many fortune cookies."},
+    {id:4, text:"He who laughs at himself never runs out of things to laugh at."},
+    {id:5, text:"Never forget a friend. Especially if he owes you."},
+    {id:6, text:"It is a good day to have a good day."},
+    {id:7, text:"Hard work pays off in the future. Laziness pays off now."},
+    {id:8, text:"If a turtle doesn't have a shell, is it naked or homeless?"},
+    {id:9, text:"Change is inevitable, except for vending machines."}
 ]
-let id = 0
+let id = 1
 let favorites=[]
  module.exports = {
      read:(req,res)=>{
@@ -19,23 +19,27 @@ let favorites=[]
          .send(randomFortune)
      },
      create:(req,res)=>{
+         let fortune = {id,text:req.body.selectedFortune}
          console.log(req.body.selectedFortune)
-         favorites.push(req.body.selectedFortune)
+         id++
+         favorites.push(fortune)
          console.log(favorites)
          res.status(200)
          .send(favorites)
      },
-     update:(req,res)=>{
-        const randomFortune = fortunes[random]
-        res.status(200)
-        .send(randomFortune)
-     },
+     update: (req,res) => {
+        res.status(200).send( favorites );
+    },
      delete:(req,res)=>{
-        const randomFortune = fortunes[random]
-        const deleteID = req.params.id;    
-        fortuneIndex = randomFortune.findIndex( fortune => fortune.id == deleteID );
-        randomFortune.splice(fortuneIndex, 1);
+        const deleteId = req.params.id;
+        console.log(deleteId)    
+        let fortuneIndex = favorites.findIndex( fortune => fortune.id == deleteId);
+        console.log(fortuneIndex);
+        
+        favorites.splice(fortuneIndex, 1);
+        console.log(favorites);
+        
         res.status(200)
-         .send(randomFortune)
+         .send(favorites)
      }
  }

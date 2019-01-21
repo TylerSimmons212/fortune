@@ -16,24 +16,29 @@ class App extends Component {
       fortunes:'',
       favoriteFortune:[]
     }
+    this.removeFortune=this.removeFortune.bind(this)
+    this.editFortune=this.editFortune.bind(this)
   }
   // componentDidMount(){
   //   axios.get( '/api/fortune' ).then( response => {
   //     this.setState({ favoriteFortune: response.data });
   //   });
   // }
-
+ 
   getFortune = () => {
     axios.get('/api/fortune')
     .then(res => {
       console.log(res)
       this.setState({
-        fortunes: res.data
+        fortunes: res.data.text
       })
   })
 }
 removeFortune( id ) {
-  axios.delete( '/api/fortune/:id' ).then( response => {
+  console.log(id)
+  axios.delete( `/api/fortune/${id}` ).then( response => {
+    console.log(response);
+    
     this.setState({ favoriteFortune: response.data });
   });
 }
@@ -47,14 +52,19 @@ addFavorite = ()=> {
       this.setState({ favoriteFortune: response.data });
   })
 }
+editFortune( id, text ) {
+  axios.put( `/api/fortune/${id}`,text).then( response => {
+    this.setState({ favoriteFortune: response.data });
+  });
+}
 
   render () {
     let faveFortunes = this.state.favoriteFortune.map( fortune => {
       return (
-        <List favoriteFortune={fortune}/>
+        <List id={fortune.id} favoriteFortune={fortune.text} delete={this.removeFortune} edit={this.editFortune}/>
       )
     })
-    console.log(this.state.fortunes)
+    console.log(this.state)
 
     return (
       <div className="App">
