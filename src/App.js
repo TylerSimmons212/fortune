@@ -8,6 +8,7 @@ import Cookie from './Components/Cookie'
 import Header from './Components/Header'
 import List from './Components/List'
 
+
 class App extends Component {
 
   constructor(){
@@ -18,6 +19,7 @@ class App extends Component {
     }
     this.removeFortune=this.removeFortune.bind(this)
     this.editFortune=this.editFortune.bind(this)
+    this.updateFavorites=this.updateFavorites.bind(this)
   }
   // componentDidMount(){
   //   axios.get( '/api/fortune' ).then( response => {
@@ -57,11 +59,23 @@ editFortune( id, text ) {
     this.setState({ favoriteFortune: response.data });
   });
 }
+updateFavorites(index, text){
+const editedFave=this.state.favoriteFortune.map((ele,i)=>{
+if(index===i){
+  return {
+    id:ele.id,
+    text:text
+  }
+}
+return ele
+})
+ this.setState({favoriteFortune:editedFave})
+}
 
   render () {
-    let faveFortunes = this.state.favoriteFortune.map( fortune => {
+    let faveFortunes = this.state.favoriteFortune.map( (fortune, i) => {
       return (
-        <List id={fortune.id} favoriteFortune={fortune.text} delete={this.removeFortune} edit={this.editFortune}/>
+        <List id={fortune.id} favoriteFortune={fortune.text} delete={this.removeFortune} edit={this.editFortune} update={this.updateFavorites} i={i}/>
       )
     })
     console.log(this.state)

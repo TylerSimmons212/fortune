@@ -28,7 +28,17 @@ let favorites=[]
          .send(favorites)
      },
      update: (req,res) => {
-        res.status(200).send( favorites );
+         const {id} = req.params;
+         const {body} = req;
+         fortunes=fortunes.map((fortune)=>{
+             if(fortune.id === +id){
+                 fortune.id=body.id;
+                 fortune.text=body.text;
+             }
+             return fortune
+         })
+        
+        res.status(200).send( fortunes );
     },
      delete:(req,res)=>{
         const deleteId = req.params.id;

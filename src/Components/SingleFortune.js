@@ -1,24 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class SingleFortune extends Component{
-    constructor(){
-        super()
-        this.state={
-            
-        }
-    }
-    
-    
-    render(){
-
-        console.log(this.props.fortune)
+function SingleFortune(props){
+        console.log(props.fortune)
         return(
             <div>
-                {this.props.fortune}
-                <button onClick={this.props.addFavorite}>Add</button>
+                {props.fortune}
+                <button onClick={props.addFavorite}>Add</button>
             </div>
         )
     }
-}
 
 export default SingleFortune
