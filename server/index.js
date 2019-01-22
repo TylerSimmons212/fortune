@@ -13,3 +13,15 @@ app.delete( '/api/fortune/:id', controller.delete );
 
 
 app.listen(4000, ()=> console.log('Houston we have lift off on port 4000'))
+
+// 
+// const editedFave=this.state.favoriteFortune.map((ele,i)=>{
+//     if(index===i){
+//       return {
+//         id:ele.id,
+//         text:text
+//       
+//     }
+//     return ele
+//     })
+//      this.setState({favoriteFortune:editedFave})

@@ -15,7 +15,8 @@ class App extends Component {
     super()
     this.state = {
       fortunes:'',
-      favoriteFortune:[]
+      favoriteFortune:[],
+      userInput:''
     }
     this.removeFortune=this.removeFortune.bind(this)
     this.editFortune=this.editFortune.bind(this)
@@ -55,30 +56,24 @@ addFavorite = ()=> {
   })
 }
 editFortune( id, text ) {
-  axios.put( `/api/fortune/${id}`,text).then( response => {
+  console.log(id, text);
+  let newObj={text:text}
+  axios.put(`/api/fortune/${id}`,newObj).then( response => {
+    console.log(response.data);
+    
     this.setState({ favoriteFortune: response.data });
   });
 }
-updateFavorites(index, text){
-const editedFave=this.state.favoriteFortune.map((ele,i)=>{
-if(index===i){
-  return {
-    id:ele.id,
-    text:text
-  }
-}
-return ele
-})
- this.setState({favoriteFortune:editedFave})
+updateFavorites(text){
+  this.setState({userInput:text})
 }
 
   render () {
     let faveFortunes = this.state.favoriteFortune.map( (fortune, i) => {
       return (
-        <List id={fortune.id} favoriteFortune={fortune.text} delete={this.removeFortune} edit={this.editFortune} update={this.updateFavorites} i={i}/>
+        <List id={fortune.id} favoriteFortune={fortune.text} delete={this.removeFortune} edit={this.editFortune} update={this.updateFavorites} i={i} userInput={this.state.userInput}/>
       )
     })
-    console.log(this.state)
 
     return (
       <div className="App">
